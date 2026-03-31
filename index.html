@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Code講座 | あなた専用のAI社員を作る1対1伴走プログラム</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', YuGothic, Meiryo, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background-color: #fff;
+        }
+
+        /* ヘッダー */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .header-cta {
+            background: white;
+            color: #667eea;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s;
+        }
+
+        .header-cta:hover {
+            transform: scale(1.05);
+        }
+
+        /* コンテナ */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            padding: 80px 20px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #333;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 1rem auto 0;
+            border-radius: 2px;
+        }
+
+        /* ファーストビュー */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 100px 20px 120px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.1)" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,197.3C1248,203,1344,149,1392,122.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+            background-size: cover;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            font-weight: bold;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            opacity: 0.95;
+        }
+
+        .hero-features {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-feature {
+            background: rgba(255,255,255,0.2);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-feature strong {
+            font-size: 1.3rem;
+            display: block;
+        }
+
+        /* CTA ボタン */
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .cta-button.secondary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        /* 共感セクション */
+        .empathy {
+            background: #f8f9fa;
+        }
+
+        .problems-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .problem-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            position: relative;
+        }
+
+        .problem-card::before {
+            content: '✓';
+            position: absolute;
+            top: -15px;
+            left: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .problem-card p {
+            margin-top: 0.5rem;
+        }
+
+        /* 問題提起・解決策 */
+        .insight {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .insight-box {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+            padding: 2.5rem;
+            border-radius: 15px;
+            border-left: 5px solid #e53e3e;
+            margin: 2rem 0;
+        }
+
+        .insight-box.solution {
+            background: linear-gradient(135deg, #e6f7ff 0%, #d4edff 100%);
+            border-left-color: #667eea;
+        }
+
+        .insight-box h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        /* 得られる未来 */
+        .benefits {
+            background: linear-gradient(135deg, #f6f8ff 0%, #f0f4ff 100%);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .benefit-item {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .benefit-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .benefit-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .benefit-item h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        /* 作れるもの */
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .example-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .example-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .example-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .example-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .example-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .example-body {
+            padding: 2rem;
+        }
+
+        /* 特徴 */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2.5rem 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            border-top: 4px solid #667eea;
+        }
+
+        .feature-number {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            line-height: 50px;
+            font-weight: bold;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        /* 比較表 */
+        .comparison {
+            background: #f8f9fa;
+        }
+
+        .comparison-table {
+            max-width: 900px;
+            margin: 3rem auto 0;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .comparison-row:last-child {
+            border-bottom: none;
+        }
+
+        .comparison-cell {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .comparison-cell:first-child {
+            text-align: left;
+            font-weight: bold;
+            background: #f8f9fa;
+        }
+
+        .comparison-row:first-child .comparison-cell {
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .comparison-row:first-child .comparison-cell:first-child {
+            background: #333;
+        }
+
+        .comparison-check {
+            color: #667eea;
+            font-size: 1.5rem;
+        }
+
+        .comparison-times {
+            color: #ccc;
+            font-size: 1.5rem;
+        }
+
+        /* 講座概要 */
+        .course-details {
+            background: white;
+            max-width: 800px;
+            margin: 3rem auto 0;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.1);
+        }
+
+        .detail-item {
+            display: flex;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: bold;
+            min-width: 150px;
+            color: #667eea;
+        }
+
+        .detail-value {
+            flex: 1;
+        }
+
+        /* 講師プロフィール */
+        .profile {
+            background: #f8f9fa;
+        }
+
+        .profile-card {
+            max-width: 800px;
+            margin: 3rem auto 0;
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .profile-content {
+            flex: 1;
+        }
+
+        .profile-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .profile-content p {
+            margin-bottom: 1rem;
+        }
+
+        /* 価格セクション */
+        .pricing {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .pricing .section-title {
+            color: white;
+        }
+
+        .pricing .section-title::after {
+            background: white;
+        }
+
+        .price-box {
+            max-width: 700px;
+            margin: 3rem auto 0;
+            background: white;
+            color: #333;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .price-badge {
+            display: inline-block;
+            background: #ff6b6b;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+
+        .price-original {
+            font-size: 1.2rem;
+            text-decoration: line-through;
+            color: #999;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-current {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-tax {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .price-note {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* FAQ */
+        .faq {
+            background: white;
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 3rem auto 0;
+        }
+
+        .faq-item {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .faq-item:hover {
+            border-color: #667eea;
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9fa;
+        }
+
+        .faq-question::before {
+            content: 'Q';
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem 4.5rem;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .faq-toggle {
+            font-size: 1.5rem;
+            color: #667eea;
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding-top: 0;
+        }
+
+        /* 最終CTA */
+        .final-cta {
+            background: linear-gradient(135deg, #f6f8ff 0%, #f0f4ff 100%);
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .final-cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        .final-cta p {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            color: #666;
+        }
+
+        .cta-box {
+            background: white;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.2);
+        }
+
+        .cta-benefits {
+            text-align: left;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .cta-benefits li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .cta-benefits li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* フッター */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .hero-features {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .section {
+                padding: 60px 20px;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+
+            .header-cta {
+                padding: 0.4rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .profile-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .comparison-row {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-cell:first-child {
+                background: #667eea;
+                color: white;
+                text-align: center;
+            }
+
+            .price-current {
+                font-size: 2.5rem;
+            }
+
+            .final-cta h2 {
+                font-size: 1.8rem;
+            }
+
+            .cta-box {
+                padding: 2rem;
+            }
+        }
+
+        /* アニメーション */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* スムーススクロール */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header>
+        <div class="header-content">
+            <div class="logo">Claude Code講座</div>
+            <a href="https://app.aitemasu.me/ev/gfw46gs8ya8g" class="header-cta">無料相談を予約</a>
+        </div>
+    </header>
+
+    <!-- ファーストビュー -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">✨ モニター募集 / 3名限定</div>
+            <h1>AIを「理解」で終わらせない。<br>あなた専用のAI社員を<br>一緒に「完成」させる講座</h1>
+            <p class="hero-subtitle">
+                ChatGPTは使ってるけど、業務改善が中途半端…<br>
+                そんなひとり社長のための、1対1完全伴走プログラム
+            </p>
+            <div class="hero-features">
+                <div class="hero-feature">
+                    <strong>98,000円</strong>
+                    <small>通常198,000円</small>
+                </div>
+                <div class="hero-feature">
+                    <strong>1ヶ月</strong>
+                    <small>60分×5回</small>
+                </div>
+                <div class="hero-feature">
+                    <strong>完成保証</strong>
+                    <small>使える形まで</small>
+                </div>
+            </div>
+            <a href="https://app.aitemasu.me/ev/gfw46gs8ya8g" class="cta-button">無料相談に申し込む（Zoom）</a>
+        </div>
+    </section>
+
+    <!-- 共感セクション -->
+    <section class="section empathy">
+        <div class="container">
+            <h2 class="section-title">こんな悩み、ありませんか?</h2>
+            <div class="problems-grid">
+                <div class="problem-card">
+                    <p>ChatGPTを使っているけど、<strong>業務改善が中途半端</strong>で終わっている</p>
+                </div>
+                <div class="problem-card">
+                    <p>AIツールは色々試したけど、<strong>痒いところに手が届かない</strong></p>
+                </div>
+                <div class="problem-card">
+                    <p>ノーコードツールでは<strong>限界</strong>を感じている</p>
+                </div>
+                <div class="problem-card">
+                    <p>エンジニアに頼むほどではないけど、<strong>自分一人では作れない</strong></p>
+                </div>
+                <div class="problem-card">
+                    <p>講座を受けても<strong>「理解」で終わって、実務で使えない</strong></p>
+                </div>
+                <div class="problem-card">
+                    <p>コード未経験で、<strong>何から始めればいいかわからない</strong></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 問題提起 -->
+    <section class="section">
+        <div class="container">
+            <div class="insight">
+                <h2 class="section-title">なぜAIを使っても成果が出ないのか?</h2>
+                <div class="insight-box">
+                    <h3>原因は、「理解」で止まっているから</h3>
+                    <p>
+                        多くのAI講座は「使い方」や「仕組み」を教えて終わりです。<br>
+                        しかし、理解だけでは業務は変わりません。<br>
+                        <strong>実際に使える「形」にして、初めて成果が出ます。</strong>
+                    </p>
+                </div>
+                <div class="insight-box solution">
+                    <h3>この講座は「完成」がゴール</h3>
+                    <p>
+                        私たちは、あなたの業務に合わせた<strong>AI社員や自動化ツールを、実際に動く形で完成</strong>させます。<br>
+                        学ぶだけではなく、<strong>実務で使える資産</strong>を作ることにこだわっています。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 得られる未来 -->
+    <section class="section benefits">
+        <div class="container">
+            <h2 class="section-title">講座終了後、こんな未来が待っています</h2>
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <div class="benefit-icon">🤖</div>
+                    <h3>あなた専用のAI社員</h3>
+                    <p>あなたの業務を理解し、24時間働いてくれるAI社員が手に入ります</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">⚡</div>
+                    <h3>業務の自動化</h3>
+                    <p>繰り返し作業から解放され、本当に大切な仕事に集中できます</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">💎</div>
+                    <h3>使える資産が残る</h3>
+                    <p>学んだだけで終わらない。実務で使えるツールが資産として残ります</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 作れるもの -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">こんなものが作れます</h2>
+            <div class="examples-grid">
+                <div class="example-card">
+                    <div class="example-header">
+                        <div class="example-icon">🤖</div>
+                        <h3>AI社員</h3>
+                    </div>
+                    <div class="example-body">
+                        <p>お客様対応、社内FAQの自動回答、議事録作成など、あなたの業務に特化したAI社員を作成できます。</p>
+                    </div>
+                </div>
+                <div class="example-card">
+                    <div class="example-header">
+                        <div class="example-icon">📄</div>
+                        <h3>請求書自動化</h3>
+                    </div>
+                    <div class="example-body">
+                        <p>データから自動で請求書を生成したり、請求書の内容を自動でシステムに入力するツールを作れます。</p>
+                    </div>
+                </div>
+                <div class="example-card">
+                    <div class="example-header">
+                        <div class="example-icon">⚙️</div>
+                        <h3>業務効率化ツール</h3>
+                    </div>
+                    <div class="example-body">
+                        <p>データ集計、レポート作成、メール一括送信など、あなたの業務に合わせたカスタムツールを作成できます。</p>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 3rem;">
+                <p style="font-size: 1.1rem; color: #666;">
+                    <strong>※ あなたの業務に合わせて柔軟にカスタマイズ可能です</strong>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 特徴 -->
+    <section class="section" style="background: #f8f9fa;">
+        <div class="container">
+            <h2 class="section-title">この講座が選ばれる4つの理由</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-number">1</div>
+                    <h3>完全1対1伴走</h3>
+                    <p>グループ講座ではありません。あなた専用のカリキュラムで、マンツーマンで伴走します。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-number">2</div>
+                    <h3>コード未経験OK</h3>
+                    <p>プログラミング経験がなくても大丈夫。Claude Codeを使い、一緒に作っていきます。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-number">3</div>
+                    <h3>完成保証あり</h3>
+                    <p>「途中で終わった」はありません。実務で使える形まで、責任を持って完成させます。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-number">4</div>
+                    <h3>3名限定募集</h3>
+                    <p>本気で成果を出していただくため、手厚くサポートできる人数に限定しています。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 他の講座との違い -->
+    <section class="section comparison">
+        <div class="container">
+            <h2 class="section-title">一般的な講座との違い</h2>
+            <div class="comparison-table">
+                <div class="comparison-row">
+                    <div class="comparison-cell"></div>
+                    <div class="comparison-cell">一般的な講座</div>
+                    <div class="comparison-cell">この講座</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">ゴール</div>
+                    <div class="comparison-cell">理解・知識習得</div>
+                    <div class="comparison-cell"><strong>実際に使えるものを完成</strong></div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">スタイル</div>
+                    <div class="comparison-cell">動画視聴・グループ</div>
+                    <div class="comparison-cell"><strong>1対1完全伴走</strong></div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">カリキュラム</div>
+                    <div class="comparison-cell">固定の教材</div>
+                    <div class="comparison-cell"><strong>あなたの業務に合わせてカスタム</strong></div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">サポート</div>
+                    <div class="comparison-cell">質問対応のみ</div>
+                    <div class="comparison-cell"><strong>チャットで常時サポート</strong></div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">完成保証</div>
+                    <div class="comparison-cell"><span class="comparison-times">×</span></div>
+                    <div class="comparison-cell"><span class="comparison-check">✓</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 講座概要 -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">講座の詳細</h2>
+            <div class="course-details">
+                <div class="detail-item">
+                    <div class="detail-label">期間</div>
+                    <div class="detail-value">1ヶ月</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">セッション</div>
+                    <div class="detail-value">60分 × 5回（Zoom）</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">サポート</div>
+                    <div class="detail-value">期間中チャットサポート無制限</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">内容</div>
+                    <div class="detail-value">
+                        <ul style="list-style: none; padding: 0;">
+                            <li>✓ あなたの業務ヒアリング・要件定義</li>
+                            <li>✓ Claude Codeの使い方レクチャー</li>
+                            <li>✓ AI社員 or 自動化ツールの設計</li>
+                            <li>✓ 実装サポート（一緒に作ります）</li>
+                            <li>✓ テスト・改善・完成まで伴走</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">対象者</div>
+                    <div class="detail-value">
+                        ひとり社長、フリーランス、小規模事業者<br>
+                        コード未経験でもOK（本気で取り組める方）
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 講師プロフィール -->
+    <section class="section profile">
+        <div class="container">
+            <h2 class="section-title">講師プロフィール</h2>
+            <div class="profile-card">
+                <div class="profile-image">👨‍💻</div>
+                <div class="profile-content">
+                    <h3>エンジニア歴5年 / AI導入支援コンサルタント</h3>
+                    <p>
+                        Web開発エンジニアとして5年のキャリアを持ち、現在はひとり社長・小規模事業者向けのAI導入支援を専門に活動しています。
+                    </p>
+                    <p>
+                        「AI使ってるけど成果が出ない」という声を数多く聞き、<strong>「理解」ではなく「完成」にこだわる</strong>講座を立ち上げました。
+                    </p>
+                    <p>
+                        技術的な知識だけでなく、事業者の視点で「本当に役立つもの」を一緒に作ることを大切にしています。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 価格 -->
+    <section class="section pricing">
+        <div class="container">
+            <h2 class="section-title">料金（モニター価格）</h2>
+            <div class="price-box">
+                <div class="price-badge">🎉 モニター募集中 / 3名限定</div>
+                <div class="price-original">通常価格：198,000円</div>
+                <div class="price-current">98,000円</div>
+                <div class="price-tax">（税込）</div>
+                <p style="margin-bottom: 2rem;">
+                    今回はサービス改善のため、<strong>モニター価格</strong>でご提供します。<br>
+                    講座終了後、率直なフィードバックをいただくことが条件です。
+                </p>
+                <a href="https://app.aitemasu.me/ev/gfw46gs8ya8g" class="cta-button secondary">無料相談に申し込む</a>
+                <div class="price-note">
+                    ※ 定員に達し次第、募集を終了します<br>
+                    ※ 次回以降は通常価格となります
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section faq">
+        <div class="container">
+            <h2 class="section-title">よくある質問</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        コードが全く書けないのですが、大丈夫ですか？
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        はい、大丈夫です。Claude Codeを使えば、コード未経験の方でも実装が可能です。専門的な知識が必要な部分は講師がサポートしますので、安心してご参加ください。
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        何を作るか決まっていないのですが、相談できますか？
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        もちろんです。無料相談では、あなたの業務をヒアリングしながら「何を自動化すべきか」「どんなAI社員を作るべきか」を一緒に整理します。まずはお気軽にご相談ください。
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        本当に1ヶ月で完成しますか？
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        はい。完成保証がありますので、1ヶ月で実務で使える形まで仕上げます。万が一、期間内に完成しなかった場合は、無償で延長サポートいたします。
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        支払い方法は何がありますか？
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        銀行振込、またはクレジットカード決済に対応しています。詳細は無料相談時にご案内いたします。
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Macでないとダメですか？Windowsでも大丈夫ですか？
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Windows、Mac、どちらでも受講可能です。環境構築もサポートしますのでご安心ください。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 最終CTA -->
+    <section class="final-cta" id="cta">
+        <div class="container">
+            <h2>まずは無料相談で<br>「何を作るか」一緒に考えましょう</h2>
+            <p>
+                無理な勧誘は一切ありません。<br>
+                あなたの業務に本当に必要なものを、一緒に整理するお手伝いをします。
+            </p>
+            <div class="cta-box">
+                <h3 style="margin-bottom: 1.5rem; color: #667eea;">無料相談（Zoom / 30分）でできること</h3>
+                <div class="cta-benefits">
+                    <ul style="list-style: none; padding: 0;">
+                        <li>あなたの業務課題をヒアリング</li>
+                        <li>どんなAI社員・ツールが作れるかご提案</li>
+                        <li>Claude Codeでどこまでできるかご説明</li>
+                        <li>講座の詳細・進め方をご説明</li>
+                        <li>あなたに合うかどうか、率直にお伝えします</li>
+                    </ul>
+                </div>
+                <p style="margin: 2rem 0 1rem; color: #666;">
+                    <strong>※ 3名限定のため、お早めにご相談ください</strong>
+                </p>
+                <a href="https://forms.gle/example" class="cta-button secondary" style="font-size: 1.1rem; padding: 1.2rem 2.5rem;">
+                    無料相談に申し込む（Zoom）
+                </a>
+                <p style="margin-top: 2rem; font-size: 0.9rem; color: #999;">
+                    ※ フォーム送信後、24時間以内に日程調整のご連絡をいたします
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- フッター -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Claude Code講座. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ アコーディオン
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const isActive = item.classList.contains('active');
+
+                // 全てのFAQを閉じる
+                document.querySelectorAll('.faq-item').forEach(faqItem => {
+                    faqItem.classList.remove('active');
+                });
+
+                // クリックされたFAQを開く（既に開いていた場合は閉じる）
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // スムーススクロール（古いブラウザ対応）
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // スクロールアニメーション（オプション）
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in-up');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // アニメーション対象の要素
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
