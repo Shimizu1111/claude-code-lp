@@ -100,6 +100,8 @@
   .price-right h4{font-size:13px;margin:0 0 14px;font-weight:800}
   .price-right ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px}
   .price-right li{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink);font-weight:600}
+  .price-actions{grid-column:1/-1;display:flex;gap:14px;justify-content:center;margin-top:28px;flex-wrap:wrap}
+  .btn-lg{padding:16px 32px;font-size:15px;border-radius:10px}
   .price-right li::before{content:"";width:16px;height:16px;background:var(--blue);mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='white' d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/></svg>") center/contain no-repeat;-webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='white' d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/></svg>") center/contain no-repeat;flex-shrink:0}
 
   /* Profile */
@@ -194,6 +196,8 @@
     .hero-cta .btn-primary,.hero-cta .btn-outline{width:100%;justify-content:center}
     .fc-buttons{flex-direction:column}
     .fc-buttons .btn-primary,.fc-buttons .btn-outline{width:100%;justify-content:center}
+    .price-actions{flex-direction:column;align-items:center}
+    .price-actions .btn-lg{width:100%;justify-content:center}
     .price-num{font-size:28px}
   }
 </style>
@@ -441,6 +445,10 @@
               <li>セキュリティ・公開までサポート</li>
             </ul>
           </div>
+        </div>
+        <div class="price-actions">
+          <a href="https://buy.stripe.com/9B6eVc49hbh57NxcGK00006" class="btn-primary btn-lg" target="_blank" rel="noopener">今すぐ申し込む</a>
+          <a href="https://app.aitemasu.me/u/ma1998042/requestcopy" class="btn-outline btn-lg" target="_blank" rel="noopener">まずは無料相談する</a>
         </div>
       </div>
     </div>
