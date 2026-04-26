@@ -68,16 +68,22 @@
   .feat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
   .feat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:28px 20px;text-align:center;transition:transform .2s,box-shadow .2s}
   .feat:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(20,50,120,.08)}
-  .feat .icon-wrap{height:64px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+  .feat .icon-wrap{width:64px;height:64px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;border-radius:14px;background:var(--blue-soft)}
   .feat img{height:48px;width:auto}
   .feat h3{font-size:14px;margin:0 0 10px;font-weight:700;color:var(--ink)}
   .feat p{font-size:12px;color:var(--muted);line-height:1.7;margin:0;font-weight:500}
 
   /* Process */
   .process{background:#fff}
-  .steps{display:grid;grid-template-columns:1fr 28px 1fr 28px 1fr 28px 1fr 28px 1fr;gap:6px;align-items:center;margin-top:18px}
-  .step img{width:100%;height:auto;display:block;max-width:170px;margin:0 auto}
-  .arrow{display:flex;align-items:center;justify-content:center;color:#A8BBE0}
+  .steps{display:grid;grid-template-columns:1fr 28px 1fr 28px 1fr 28px 1fr 28px 1fr;gap:6px;align-items:start;margin-top:18px}
+  .step{text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px}
+  .step-icon{width:72px;height:72px;background:#EAF1FE;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .step-icon svg{width:40px;height:40px}
+  .step-label{display:flex;align-items:center;gap:6px;justify-content:center;flex-wrap:wrap}
+  .step-num{color:var(--blue);font-weight:900;font-size:13px}
+  .step-title{font-weight:800;font-size:13px;color:var(--ink)}
+  .step-desc{font-size:11px;color:var(--muted);line-height:1.75;margin:0;font-weight:500}
+  .arrow{display:flex;align-items:center;justify-content:center;color:#A8BBE0;padding-top:16px}
   .arrow svg{width:24px;height:24px}
 
   /* Two col plans */
@@ -103,6 +109,19 @@
   .price-actions{grid-column:1/-1;display:flex;gap:14px;justify-content:center;margin-top:28px;flex-wrap:wrap}
   .btn-lg{padding:16px 32px;font-size:15px;border-radius:10px}
   .price-right li::before{content:"";width:16px;height:16px;background:var(--blue);mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='white' d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/></svg>") center/contain no-repeat;-webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='white' d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/></svg>") center/contain no-repeat;flex-shrink:0}
+
+  /* Can Make */
+  .can-make{background:var(--page)}
+  .can-make-list{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .cm-item{background:#fff;border:1px solid var(--line);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;transition:transform .2s,box-shadow .2s}
+  .cm-item:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(20,50,120,.07)}
+  .cm-num{width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;font-weight:900;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .cm-mock{width:100%;height:120px;overflow:hidden;border-bottom:1px solid var(--line);flex-shrink:0}
+  .cm-mock svg{width:100%;height:100%;display:block}
+  .cm-body{padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+  .cm-body-top{display:flex;align-items:center;gap:8px}
+  .cm-body h3{font-size:13px;font-weight:800;margin:0;color:var(--ink)}
+  .cm-body p{font-size:11px;color:var(--ink-2);line-height:1.85;margin:0;font-weight:500}
 
   /* Profile */
   .profile{background:#fff}
@@ -141,6 +160,7 @@
 
   /* ---- Responsive ---- */
   @media(max-width:900px){
+    .can-make-list{grid-template-columns:repeat(2,1fr)}
     /* Nav */
     .topnav{padding:12px 20px;position:relative}
     .nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;flex-direction:column;gap:0;padding:8px 0;border-bottom:1px solid var(--line);box-shadow:0 8px 24px rgba(0,0,0,.08);z-index:100}
@@ -169,8 +189,8 @@
 
     /* Process steps */
     .steps{grid-template-columns:1fr;gap:0;justify-items:center}
-    .step{width:100%;max-width:200px}
-    .arrow{transform:rotate(90deg);padding:4px 0}
+    .step{width:100%;max-width:220px}
+    .arrow{transform:rotate(90deg);padding:4px 0;padding-top:4px}
 
     /* Plans */
     .plans-grid{grid-template-columns:1fr}
@@ -189,6 +209,7 @@
   }
 
   @media(max-width:480px){
+    .can-make-list{grid-template-columns:1fr}
     h1.hero-title{font-size:26px}
     .pill{font-size:11px;padding:6px 12px}
     .feat-grid{grid-template-columns:1fr}
@@ -400,15 +421,86 @@
       <h2 class="section-title">学習ループを作ることが大事</h2>
       <p class="section-sub">5ステップの循環型プロセスで、確実にスキルと成果を積み上げていきます。</p>
       <div class="steps">
-        <div class="step"><img src="assets/15a_step_01_requirements.png" alt="01 要件整理"></div>
+        <div class="step">
+          <div class="step-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="4" width="36" height="40" rx="4" stroke="#1E5BE6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="6" y1="16" x2="42" y2="16" stroke="#1E5BE6" stroke-width="2"/>
+              <line x1="24" y1="16" x2="24" y2="44" stroke="#1E5BE6" stroke-width="2"/>
+              <rect x="28" y="7" width="4" height="7" rx="1" fill="#1E5BE6"/>
+              <rect x="34" y="9" width="4" height="5" rx="1" fill="#1E5BE6" opacity="0.45"/>
+              <line x1="10" y1="24" x2="20" y2="24" stroke="#1E5BE6" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="10" y1="30" x2="18" y2="30" stroke="#1E5BE6" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="10" y1="36" x2="20" y2="36" stroke="#1E5BE6" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="28" y1="24" x2="38" y2="24" stroke="#1E5BE6" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="28" y1="30" x2="36" y2="30" stroke="#1E5BE6" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="step-label"><span class="step-num">01</span><span class="step-title">要件整理</span></div>
+          <p class="step-desc">お客様と話しながらゴールから決めて整理していきます</p>
+        </div>
         <div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg></div>
-        <div class="step"><img src="assets/15b_step_02_hands_on.png" alt="02 手を動かす"></div>
+        <div class="step">
+          <div class="step-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="24,8 40,16 24,24 8,16" fill="#EAF1FE" stroke="#1E5BE6" stroke-width="2" stroke-linejoin="round"/>
+              <polyline points="8,22 24,30 40,22" stroke="#1E5BE6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <polyline points="8,30 24,38 40,30" stroke="#1E5BE6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.45"/>
+            </svg>
+          </div>
+          <div class="step-label"><span class="step-num">02</span><span class="step-title">手を動かす</span></div>
+          <p class="step-desc">ClaudeCodeを使って、実際に形にするものにしていきます</p>
+        </div>
         <div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg></div>
-        <div class="step"><img src="assets/15c_step_03_feedback.png" alt="03 フィードバック"></div>
+        <div class="step">
+          <div class="step-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4" y="8" width="40" height="30" rx="4" stroke="#1E5BE6" stroke-width="2"/>
+              <line x1="4" y1="18" x2="44" y2="18" stroke="#1E5BE6" stroke-width="2"/>
+              <circle cx="10" cy="13" r="2" fill="#1E5BE6"/>
+              <circle cx="17" cy="13" r="2" fill="#1E5BE6"/>
+              <polyline points="16,26 11,31 16,36" stroke="#1E5BE6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <polyline points="32,26 37,31 32,36" stroke="#1E5BE6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="22" y1="24" x2="26" y2="38" stroke="#1E5BE6" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="step-label"><span class="step-num">03</span><span class="step-title">フィードバック</span></div>
+          <p class="step-desc">マンツーマンで改善点を見つけフィードバックを受けます</p>
+        </div>
         <div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg></div>
-        <div class="step"><img src="assets/15d_step_04_extract.png" alt="04 改善点を洗い出す"></div>
+        <div class="step">
+          <div class="step-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="4" width="26" height="36" rx="4" stroke="#1E5BE6" stroke-width="2"/>
+              <line x1="12" y1="14" x2="26" y2="14" stroke="#1E5BE6" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="12" y1="21" x2="26" y2="21" stroke="#1E5BE6" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="12" y1="28" x2="20" y2="28" stroke="#1E5BE6" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M 30 30 L 40 20 L 44 24 L 34 34 Z" fill="#EAF1FE" stroke="#1E5BE6" stroke-width="2" stroke-linejoin="round"/>
+              <line x1="40" y1="20" x2="44" y2="24" stroke="#1E5BE6" stroke-width="2" stroke-linecap="round"/>
+              <line x1="30" y1="30" x2="28" y2="40" stroke="#1E5BE6" stroke-width="2" stroke-linecap="round"/>
+              <line x1="34" y1="34" x2="28" y2="40" stroke="#1E5BE6" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="step-label"><span class="step-num">04</span><span class="step-title">改善点を洗い出す</span></div>
+          <p class="step-desc">フィードバックをもとに改善ポイントを洗い出します</p>
+        </div>
         <div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg></div>
-        <div class="step"><img src="assets/15e_step_05_improve.png" alt="05 改善"></div>
+        <div class="step">
+          <div class="step-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="8" y="10" width="32" height="34" rx="4" stroke="#1E5BE6" stroke-width="2"/>
+              <rect x="16" y="6" width="16" height="10" rx="3" fill="#EAF1FE" stroke="#1E5BE6" stroke-width="2"/>
+              <rect x="13" y="22" width="7" height="7" rx="1.5" stroke="#1E5BE6" stroke-width="1.5"/>
+              <polyline points="14.5,25.5 16.5,27.5 19,23.5" stroke="#1E5BE6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="24" y1="25.5" x2="34" y2="25.5" stroke="#1E5BE6" stroke-width="1.5" stroke-linecap="round"/>
+              <rect x="13" y="33" width="7" height="7" rx="1.5" stroke="#1E5BE6" stroke-width="1.5"/>
+              <polyline points="14.5,36.5 16.5,38.5 19,34.5" stroke="#1E5BE6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="24" y1="36.5" x2="34" y2="36.5" stroke="#1E5BE6" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="step-label"><span class="step-num">05</span><span class="step-title">改善</span></div>
+          <p class="step-desc">実際に改善していきます</p>
+        </div>
       </div>
     </div>
   </section>
@@ -454,13 +546,233 @@
     </div>
   </section>
 
+  <!-- Can Make -->
+  <section class="can-make">
+    <div class="container">
+      <p class="section-sub" style="margin-bottom:4px">たった2ヶ月で</p>
+      <h2 class="section-title" style="margin-bottom:10px">こんなものが作れるようになります</h2>
+      <p class="section-sub">ClaudeCodeを使えば、あなたのビジネスや業務に役立つシステムをゼロから開発できます。</p>
+      <div class="can-make-list">
+
+        <div class="cm-item">
+          <div class="cm-mock">
+            <svg viewBox="0 0 180 110" xmlns="http://www.w3.org/2000/svg">
+              <rect width="180" height="110" fill="#F4F8FF"/>
+              <rect width="180" height="22" fill="#1E5BE6"/>
+              <rect x="8" y="8" width="60" height="6" rx="3" fill="white" opacity="0.9"/>
+              <rect x="152" y="7" width="20" height="8" rx="4" fill="white" opacity="0.7"/>
+              <rect x="8" y="28" width="164" height="14" rx="2" fill="#EAF1FE"/>
+              <rect x="12" y="32" width="20" height="6" rx="2" fill="#1E5BE6" opacity="0.5"/>
+              <rect x="44" y="32" width="36" height="6" rx="2" fill="#1E5BE6" opacity="0.5"/>
+              <rect x="92" y="32" width="48" height="6" rx="2" fill="#1E5BE6" opacity="0.5"/>
+              <rect x="150" y="32" width="18" height="6" rx="2" fill="#1E5BE6" opacity="0.5"/>
+              <rect x="8" y="46" width="164" height="13" rx="2" fill="white"/>
+              <rect x="12" y="50" width="16" height="5" rx="2" fill="#9AA8C2"/>
+              <rect x="44" y="50" width="28" height="5" rx="2" fill="#9AA8C2"/>
+              <rect x="92" y="50" width="52" height="5" rx="2" fill="#9AA8C2"/>
+              <rect x="149" y="49" width="20" height="7" rx="3.5" fill="#1E5BE6"/>
+              <rect x="8" y="61" width="164" height="13" rx="2" fill="#F7FAFE"/>
+              <rect x="12" y="65" width="20" height="5" rx="2" fill="#9AA8C2"/>
+              <rect x="44" y="65" width="32" height="5" rx="2" fill="#9AA8C2"/>
+              <rect x="92" y="65" width="44" height="5" rx="2" fill="#9AA8C2"/>
+              <rect x="149" y="64" width="20" height="7" rx="3.5" fill="#9AA8C2"/>
+              <rect x="8" y="76" width="164" height="13" rx="2" fill="white"/>
+              <rect x="12" y="80" width="18" height="5" rx="2" fill="#9AA8C2"/>
+              <rect x="44" y="80" width="30" height="5" rx="2" fill="#9AA8C2"/>
+              <rect x="92" y="80" width="48" height="5" rx="2" fill="#9AA8C2"/>
+              <rect x="149" y="79" width="20" height="7" rx="3.5" fill="#1E5BE6"/>
+              <rect x="8" y="96" width="70" height="8" rx="4" fill="#1E5BE6"/>
+            </svg>
+          </div>
+          <div class="cm-body">
+            <div class="cm-body-top"><div class="cm-num">1</div><h3>顧客管理システム</h3></div>
+            <p>スプレッドシートの顧客情報をもとに、メール一括送信や売上分析ができるシステムを開発できます。</p>
+          </div>
+        </div>
+
+        <div class="cm-item">
+          <div class="cm-mock">
+            <svg viewBox="0 0 180 110" xmlns="http://www.w3.org/2000/svg">
+              <rect width="180" height="110" fill="#F4F8FF"/>
+              <rect x="20" y="8" width="140" height="94" rx="6" fill="white" stroke="#E1E8F2" stroke-width="1"/>
+              <rect x="30" y="16" width="50" height="8" rx="3" fill="#1E5BE6"/>
+              <rect x="110" y="14" width="40" height="5" rx="2" fill="#9AA8C2"/>
+              <rect x="110" y="22" width="30" height="5" rx="2" fill="#9AA8C2"/>
+              <line x1="30" y1="32" x2="150" y2="32" stroke="#E1E8F2" stroke-width="1"/>
+              <rect x="30" y="38" width="70" height="5" rx="2" fill="#C9D6EC"/>
+              <rect x="130" y="38" width="24" height="5" rx="2" fill="#3B4A63" opacity="0.6"/>
+              <rect x="30" y="48" width="60" height="5" rx="2" fill="#C9D6EC"/>
+              <rect x="130" y="48" width="24" height="5" rx="2" fill="#3B4A63" opacity="0.6"/>
+              <rect x="30" y="58" width="80" height="5" rx="2" fill="#C9D6EC"/>
+              <rect x="130" y="58" width="24" height="5" rx="2" fill="#3B4A63" opacity="0.6"/>
+              <line x1="30" y1="68" x2="150" y2="68" stroke="#E1E8F2" stroke-width="1"/>
+              <rect x="90" y="72" width="24" height="5" rx="2" fill="#9AA8C2"/>
+              <rect x="128" y="70" width="28" height="8" rx="2" fill="#1E5BE6"/>
+              <rect x="30" y="88" width="50" height="10" rx="5" fill="#EAF1FE" stroke="#1E5BE6" stroke-width="1"/>
+              <rect x="36" y="91" width="38" height="4" rx="2" fill="#1E5BE6"/>
+            </svg>
+          </div>
+          <div class="cm-body">
+            <div class="cm-body-top"><div class="cm-num">2</div><h3>請求書・見積書作成ツール</h3></div>
+            <p>品目・金額を入力するだけでPDF出力できる、請求書や見積書の作成ツールを開発できます。</p>
+          </div>
+        </div>
+
+        <div class="cm-item">
+          <div class="cm-mock">
+            <svg viewBox="0 0 180 110" xmlns="http://www.w3.org/2000/svg">
+              <rect width="180" height="110" rx="6" fill="#F4F8FF"/>
+              <rect width="180" height="16" rx="6" fill="#E1E8F2"/>
+              <rect y="10" width="180" height="6" fill="#E1E8F2"/>
+              <circle cx="10" cy="8" r="3" fill="#FF5F57"/>
+              <circle cx="20" cy="8" r="3" fill="#FEBC2E"/>
+              <circle cx="30" cy="8" r="3" fill="#28C840"/>
+              <rect x="50" y="4" width="80" height="8" rx="4" fill="white"/>
+              <rect x="0" y="16" width="180" height="38" fill="#1E5BE6"/>
+              <rect x="12" y="24" width="60" height="8" rx="3" fill="white" opacity="0.9"/>
+              <rect x="12" y="36" width="44" height="5" rx="2" fill="white" opacity="0.5"/>
+              <rect x="130" y="22" width="36" height="26" rx="4" fill="white" opacity="0.15"/>
+              <rect x="12" y="60" width="48" height="14" rx="4" fill="white" stroke="#E1E8F2" stroke-width="1"/>
+              <rect x="67" y="60" width="48" height="14" rx="4" fill="white" stroke="#E1E8F2" stroke-width="1"/>
+              <rect x="122" y="60" width="48" height="14" rx="4" fill="white" stroke="#E1E8F2" stroke-width="1"/>
+              <rect x="40" y="82" width="100" height="6" rx="3" fill="#C9D6EC"/>
+              <rect x="60" y="92" width="60" height="8" rx="4" fill="#1E5BE6"/>
+            </svg>
+          </div>
+          <div class="cm-body">
+            <div class="cm-body-top"><div class="cm-num">3</div><h3>自社LP・ホームページ</h3></div>
+            <p>サービスを訴求するランディングページや企業サイトをゼロから制作・公開できます。</p>
+          </div>
+        </div>
+
+        <div class="cm-item">
+          <div class="cm-mock">
+            <svg viewBox="0 0 180 110" xmlns="http://www.w3.org/2000/svg">
+              <rect width="180" height="110" fill="#F4F8FF"/>
+              <rect width="180" height="22" fill="#1E5BE6"/>
+              <rect x="8" y="8" width="50" height="6" rx="3" fill="white" opacity="0.9"/>
+              <rect x="8" y="28" width="40" height="6" rx="3" fill="#1E5BE6" opacity="0.4"/>
+              <rect x="8" y="38" width="164" height="10" rx="2" fill="#EAF1FE"/>
+              <rect x="12" y="41" width="14" height="4" rx="2" fill="#9AA8C2"/>
+              <rect x="35" y="41" width="14" height="4" rx="2" fill="#9AA8C2"/>
+              <rect x="58" y="41" width="14" height="4" rx="2" fill="#9AA8C2"/>
+              <rect x="81" y="41" width="14" height="4" rx="2" fill="#9AA8C2"/>
+              <rect x="104" y="41" width="14" height="4" rx="2" fill="#9AA8C2"/>
+              <circle cx="19" cy="56" r="7" fill="#EAF1FE"/>
+              <path d="M 15 56 L 18 59 L 23 52" stroke="#1E5BE6" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <circle cx="42" cy="56" r="7" fill="#EAF1FE"/>
+              <path d="M 38 56 L 41 59 L 46 52" stroke="#1E5BE6" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <circle cx="65" cy="56" r="7" fill="#EAF1FE"/>
+              <path d="M 61 56 L 64 59 L 69 52" stroke="#1E5BE6" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <circle cx="88" cy="56" r="7" fill="#EAF1FE"/>
+              <path d="M 84 56 L 87 59 L 92 52" stroke="#1E5BE6" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <circle cx="111" cy="56" r="7" fill="#EAF1FE"/>
+              <path d="M 107 56 L 110 59 L 115 52" stroke="#1E5BE6" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <circle cx="19" cy="72" r="7" fill="#EAF1FE"/>
+              <path d="M 15 72 L 18 75 L 23 68" stroke="#1E5BE6" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <circle cx="42" cy="72" r="7" fill="#EAF1FE"/>
+              <path d="M 38 72 L 41 75 L 46 68" stroke="#1E5BE6" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <circle cx="65" cy="72" r="7" fill="#EAF1FE"/>
+              <circle cx="88" cy="72" r="7" fill="#1E5BE6"/>
+              <path d="M 84 72 L 87 75 L 92 68" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <rect x="8" y="85" width="164" height="18" rx="6" fill="white" stroke="#E1E8F2" stroke-width="1"/>
+              <rect x="16" y="90" width="8" height="8" rx="2" fill="#1E5BE6" opacity="0.3"/>
+              <rect x="28" y="92" width="30" height="4" rx="2" fill="#9AA8C2"/>
+              <rect x="80" y="90" width="8" height="8" rx="2" fill="#28C840" opacity="0.5"/>
+              <rect x="92" y="92" width="24" height="4" rx="2" fill="#9AA8C2"/>
+              <rect x="130" y="90" width="8" height="8" rx="2" fill="#1E5BE6" opacity="0.2"/>
+              <rect x="142" y="92" width="20" height="4" rx="2" fill="#9AA8C2"/>
+            </svg>
+          </div>
+          <div class="cm-body">
+            <div class="cm-body-top"><div class="cm-num">4</div><h3>社内向けの勤怠管理システム</h3></div>
+            <p>出退勤の打刻・月次集計・有給管理まで対応した、社内専用の勤怠管理アプリを構築できます。</p>
+          </div>
+        </div>
+
+        <div class="cm-item">
+          <div class="cm-mock">
+            <svg viewBox="0 0 180 110" xmlns="http://www.w3.org/2000/svg">
+              <rect width="180" height="110" fill="#F4F8FF"/>
+              <rect width="180" height="18" fill="#1E5BE6"/>
+              <rect x="8" y="6" width="44" height="6" rx="3" fill="white" opacity="0.9"/>
+              <rect x="150" y="5" width="22" height="8" rx="4" fill="white" opacity="0.7"/>
+              <rect x="8" y="22" width="100" height="58" rx="6" fill="#15233A"/>
+              <circle cx="58" cy="51" r="12" fill="white" opacity="0.2"/>
+              <path d="M 54 46 L 54 56 L 64 51 Z" fill="white"/>
+              <rect x="8" y="84" width="100" height="4" rx="2" fill="#3B4A63"/>
+              <rect x="8" y="84" width="60" height="4" rx="2" fill="#1E5BE6"/>
+              <rect x="116" y="22" width="56" height="12" rx="4" fill="#1E5BE6"/>
+              <rect x="120" y="26" width="36" height="4" rx="2" fill="white" opacity="0.9"/>
+              <rect x="116" y="37" width="56" height="12" rx="4" fill="white" stroke="#E1E8F2" stroke-width="1"/>
+              <rect x="120" y="41" width="36" height="4" rx="2" fill="#9AA8C2"/>
+              <rect x="116" y="52" width="56" height="12" rx="4" fill="white" stroke="#E1E8F2" stroke-width="1"/>
+              <rect x="120" y="56" width="36" height="4" rx="2" fill="#9AA8C2"/>
+              <rect x="116" y="67" width="56" height="12" rx="4" fill="white" stroke="#E1E8F2" stroke-width="1"/>
+              <rect x="120" y="71" width="36" height="4" rx="2" fill="#9AA8C2"/>
+              <rect x="116" y="84" width="56" height="8" rx="4" fill="#EAF1FE"/>
+              <rect x="116" y="84" width="38" height="8" rx="4" fill="#1E5BE6" opacity="0.7"/>
+            </svg>
+          </div>
+          <div class="cm-body">
+            <div class="cm-body-top"><div class="cm-num">5</div><h3>講座受講プラットフォーム</h3></div>
+            <p>動画・教材配信や受講者の進捗管理ができるオンライン学習プラットフォームを構築できます。</p>
+          </div>
+        </div>
+
+        <div class="cm-item">
+          <div class="cm-mock">
+            <svg viewBox="0 0 180 110" xmlns="http://www.w3.org/2000/svg">
+              <rect width="180" height="110" fill="#F4F8FF"/>
+              <rect width="180" height="20" fill="#1E5BE6"/>
+              <rect x="8" y="7" width="50" height="6" rx="3" fill="white" opacity="0.9"/>
+              <rect x="8" y="26" width="120" height="12" rx="6" fill="white" stroke="#E1E8F2" stroke-width="1"/>
+              <rect x="16" y="30" width="6" height="4" rx="2" fill="#9AA8C2"/>
+              <rect x="26" y="30" width="50" height="4" rx="2" fill="#C9D6EC"/>
+              <rect x="135" y="26" width="36" height="12" rx="6" fill="#EAF1FE" stroke="#1E5BE6" stroke-width="1"/>
+              <rect x="143" y="30" width="20" height="4" rx="2" fill="#1E5BE6"/>
+              <rect x="8" y="44" width="164" height="12" rx="3" fill="white" stroke="#E1E8F2" stroke-width="1"/>
+              <circle cx="17" cy="50" r="5" fill="#EAF1FE"/>
+              <rect x="27" y="47" width="50" height="4" rx="2" fill="#15233A" opacity="0.7"/>
+              <rect x="90" y="47" width="40" height="4" rx="2" fill="#9AA8C2"/>
+              <rect x="144" y="47" width="22" height="6" rx="3" fill="#1E5BE6"/>
+              <rect x="8" y="58" width="164" height="12" rx="3" fill="#F7FAFE" stroke="#E1E8F2" stroke-width="1"/>
+              <circle cx="17" cy="64" r="5" fill="#EAF1FE"/>
+              <rect x="27" y="61" width="44" height="4" rx="2" fill="#15233A" opacity="0.7"/>
+              <rect x="90" y="61" width="36" height="4" rx="2" fill="#9AA8C2"/>
+              <rect x="144" y="61" width="22" height="6" rx="3" fill="#9AA8C2"/>
+              <rect x="8" y="72" width="164" height="12" rx="3" fill="white" stroke="#E1E8F2" stroke-width="1"/>
+              <circle cx="17" cy="78" r="5" fill="#EAF1FE"/>
+              <rect x="27" y="75" width="56" height="4" rx="2" fill="#15233A" opacity="0.7"/>
+              <rect x="90" y="75" width="44" height="4" rx="2" fill="#9AA8C2"/>
+              <rect x="144" y="75" width="22" height="6" rx="3" fill="#1E5BE6"/>
+              <rect x="8" y="86" width="164" height="12" rx="3" fill="#F7FAFE" stroke="#E1E8F2" stroke-width="1"/>
+              <circle cx="17" cy="92" r="5" fill="#EAF1FE"/>
+              <rect x="27" y="89" width="48" height="4" rx="2" fill="#15233A" opacity="0.7"/>
+              <rect x="90" y="89" width="40" height="4" rx="2" fill="#9AA8C2"/>
+              <rect x="144" y="89" width="22" height="6" rx="3" fill="#1E5BE6"/>
+            </svg>
+          </div>
+          <div class="cm-body">
+            <div class="cm-body-top"><div class="cm-num">6</div><h3>営業リスト作成ツール</h3></div>
+            <p>条件を指定するだけでターゲット企業・担当者の営業リストを自動収集・整理するツールを作れます。</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- Profile -->
   <section class="profile" id="profile">
     <div class="container">
       <h2 class="section-title" style="text-align:left;margin-bottom:32px">代表プロフィール</h2>
       <div class="profile-grid">
-        <div class="profile-photo">
-          <img src="assets/01_portrait.png" alt="代表ポートレート">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+          <div class="profile-photo">
+            <img src="assets/01_portrait.png" alt="代表ポートレート">
+          </div>
+          <p style="text-align:center;margin:0;font-size:15px;font-weight:800;color:var(--ink)">清水 勝紀<span style="display:block;font-size:11px;font-weight:500;color:var(--muted);margin-top:2px">しみず かつのり</span></p>
         </div>
         <div class="profile-info">
           <h3>代表 /</h3>
